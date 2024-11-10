@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Confirmation{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center">Booking Confirmation</h1>
+    <div class="alert alert-success" role="alert">
+        <strong>Your booking was successful!</strong> Thank you for choosing our flight reservation system.
+    </div>
+    
+    <h3>Your Booking Details:</h3>
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>Flight Number:</strong> {{ flight_number }}</li>
+        <li class="list-group-item"><strong>Departure:</strong> {{ departure }}</li>
+        <li class="list-group-item"><strong>Destination:</strong> {{ destination }}</li>
+        <li class="list-group-item"><strong>Date:</strong> {{ date }}</li>
+        <li class="list-group-item"><strong>Time:</strong> {{ time }}</li>
+        <li class="list-group-item"><strong>Price per Seat:</strong> ${{ price }}</li>
+        <li class="list-group-item"><strong>Number of Seats:</strong> {{ num_seats }}</li>
+        <li class="list-group-item"><strong>Total Price:</strong> ${{ total_price }}</li>
+    </ul>
+
+    <h3>Your Details:</h3>
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>Name:</strong> {{ name }}</li>
+        <li class="list-group-item"><strong>Email:</strong> {{ email }}</li>
+        <li class="list-group-item"><strong>Phone:</strong> {{ phone }}</li>
+    </ul>
+
+    <div class="text-center">
+        <a class="btn btn-primary" href="{{ url_for('search_flights') }}">Search Another Flight</a>
+        <a class="btn btn-secondary" href="{{ url_for('my_bookings') }}">View My Bookings</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your external CSS file -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        .alert {
+            color: #d9534f;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+        /* Default Cancel button style */
+        .cancel-btn {
+            background-color: #FF5C5C; /* Light red color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Deeper red on hover */
+        .cancel-btn:hover {
+            background-color: #D32F2F; /* Deeper red */
+        }
+
+        
+        @media (max-width: 600px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            th {
+                display: none;
+            }
+
+            tr {
+                margin-bottom: 15px;
+            }
+
+            td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+
+            td:before {
+                position: absolute;
+                left: 0;
+                width: 50%;
+                padding-left: 10px;
+                white-space: nowrap;
+                text-align: left;
+            }
+            
+
+            td:nth-of-type(1):before { content: "Booking ID"; }
+            td:nth-of-type(2):before { content: "Flight ID"; }
+            td:nth-of-type(3):before { content: "User ID"; }
+            td:nth-of-type(4):before { content: "Booking Date"; }
+            td:nth-of-type(5):before { content: "Status"; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Bookings</h1>
+
+        <!-- Displaying alert message if needed -->
+        {% if message %}
+        <div class="alert">{{ message }}</div>
+        {% endif %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Flight ID</th>
+                    <th>User ID</th>
+                    <th>Booking Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking[0] }}</td> <!-- Booking ID -->
+                    <td>{{ booking[1] }}</td> <!-- Flight ID -->
+                    <td>{{ booking[2] }}</td> <!-- User ID -->
+                    <td>{{ booking[4].strftime('%Y-%m-%d') }}</td> <!-- Booking Date -->
+                    <td>{{ booking[3] }}</td> <!-- Status -->
+                    <td>
+                        {% if booking[3] != 'Canceled' %} <!-- Show only if booking is active -->
+                        <form action="{{ url_for('cancel_flight_booking', booking_id=booking[0]) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="cancel-btn">Cancel</button>
+                        </form>
+                        
+                        {% else %}
+                        Canceled
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6">No bookings found.</td></tr>
+                {% endfor %}
+            </tbody>
+            
+            
+        </table>
+
+        <a href="/" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>

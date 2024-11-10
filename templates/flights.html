@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Flights</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Available Flights</h2>
+
+        <!-- Displaying Flight Search Criteria -->
+        <div class="mb-3">
+            <strong>Flight Number:</strong> {{ flight_number if flight_number else 'None' }} <br>
+            <strong>Departure City:</strong> {{ departure_city }} <br>
+            <strong>Arrival City:</strong> {{ arrival_city }} <br>
+            <strong>Departure Time:</strong> {{ departure_time }} <br>
+            <strong>Arrival Time:</strong> {{ arrival_time }} <br>
+        </div>
+
+        <!-- Search Again Button -->
+        <form action="{{ url_for('search_flights') }}" method="GET">
+            <button type="submit" class="btn btn-primary mb-3">Search Again</button>
+        </form>
+
+        <!-- Flight Results Table -->
+        {% if flights %}
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Flight ID</th>
+                    <th>Airline</th>
+                    <th>Departure City</th>
+                    <th>Arrival City</th>
+                    <th>Departure Time</th>
+                    <th>Arrival Time</th>
+                    <th>Price</th>
+                    <th>Available Seats</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Looping through flights to display each one in the table -->
+                {% for flight in flights %}
+                <tr>
+                    <td>{{ flight['flight_id'] }}</td>
+                    <td>{{ flight['airline'] }}</td>
+                    <td>{{ flight['departure_city'] }}</td>
+                    <td>{{ flight['arrival_city'] }}</td>
+                    <td>{{ flight['departure_time'] }}</td>
+                    <td>{{ flight['arrival_time'] }}</td>
+                    <td>{{ flight['price'] }}</td>
+                    <td>{{ flight['available_seats'] }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('book_flight', flight_id=flight['flight_id']) }}">
+                            <input type="number" name="num_passengers" min="1" max="{{ flight['available_seats'] }}" placeholder="Passengers" required>
+                            <button type="submit" class="btn btn-success">Book Flight</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No flights found matching your criteria.</p>
+    {% endif %}
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Flight Reservation System{% endblock %}
+
+{% block content %}
+<div class="jumbotron text-center" style="background-color: #007bff; color: white;">
+    <h1 class="display-4">Welcome to Flight Reservation System</h1>
+    <p class="lead">Your gateway to easy flight bookings at the best prices.</p>
+    <a class="btn btn-light btn-lg" href="{{ url_for('search_flights') }}" role="button">Search Flights</a>
+</div>
+
+<div class="container">
+    <h2 class="my-4 text-center">Why Choose Us?</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Easy Booking</h5>
+                    <p class="card-text">Book your flights in just a few clicks. Our user-friendly interface makes it simple!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Best Prices</h5>
+                    <p class="card-text">We offer competitive prices and exclusive deals for all our users.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Customer Support</h5>
+                    <p class="card-text">Our support team is here to assist you 24/7 with any inquiries you may have.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center">
+    <h2 class="my-4">Get Started Today!</h2>
+    <p>Start searching for your next adventure. It's time to explore the world!</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('search_flights') }}">Search Flights Now</a>
+</div>
+{% endblock %}

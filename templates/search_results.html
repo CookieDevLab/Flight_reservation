@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <title>Search Flights</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .search-container {
+            margin-top: 50px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .table-container {
+            margin-top: 30px;
+            width: 80%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .suggestion-note {
+            color: #888;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <h1>Search Flights</h1>
+        <form method="POST">
+            <label>Departure:</label><input type="text" name="departure" required><br><br>
+            <label>Destination:</label><input type="text" name="destination" required><br><br>
+            <label>Date:</label><input type="date" name="departure_date" required><br><br>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    {% if flights %}
+        <div class="table-container">
+            <h2>Available Flights</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Departure</th>
+                        <th>Destination</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Price</th>
+                        <th>Available Seats</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flight in flights %}
+                        <tr>
+                            <td>{{ flight[1] }}</td>
+                            <td>{{ flight[2] }}</td>
+                            <td>{{ flight[3] }}</td>
+                            <td>{{ flight[4] }}</td>
+                            <td>${{ flight[5] }}</td>
+                            <td>{{ flight[6] }}</td>
+                            <td>
+                                <form method="POST" action="{{ url_for('booking_page', flight_id=flight[0]) }}">
+                                    <button type="submit">Book</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% elif similar_flights %}
+        <div class="table-container">
+            <h2>Similar Flights</h2>
+            <p class="suggestion-note">No exact matches found, but here are some similar flights.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Departure</th>
+                        <th>Destination</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Price</th>
+                        <th>Available Seats</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flight in similar_flights %}
+                        <tr>
+                            <td>{{ flight[1] }}</td>
+                            <td>{{ flight[2] }}</td>
+                            <td>{{ flight[3] }}</td>
+                            <td>{{ flight[4] }}</td>
+                            <td>${{ flight[5] }}</td>
+                            <td>{{ flight[6] }}</td>
+                            <td>
+                                <form method="POST" action="{{ url_for('booking_page', flight_id=flight[0]) }}">
+                                    <button type="submit">Book</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</body>
+</html>

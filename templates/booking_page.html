@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Flight Booking{% endblock %}
+
+{% block content %}
+<h1 class="my-4">Flight Booking</h1>
+<form method="POST" action="{{ url_for('process_booking', flight_id=flight_id) }}">
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" name="name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" name="email" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="phone">Phone:</label>
+        <input type="text" name="phone" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="num_seats">Number of Seats:</label>
+        <input type="number" name="num_seats" class="form-control" min="1" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+</form>
+{% endblock %}

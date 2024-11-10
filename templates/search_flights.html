@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Search Flights{% endblock %}
+
+{% block content %}
+<div class="search-container text-center">
+    <h1 class="my-4">Search Flights</h1>
+    <form method="POST" class="form-inline justify-content-center">
+        <input type="text" name="departure" class="form-control mr-2" placeholder="Departure" required>
+        <input type="text" name="destination" class="form-control mr-2" placeholder="Destination" required>
+        <input type="date" name="departure_date" class="form-control mr-2" required>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+{% if flights %}
+    <div class="table-container">
+        <h2 class="my-4">Available Flights</h2>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Departure</th>
+                    <th>Destination</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Price</th>
+                    <th>Available Seats</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in flights %}
+                    <tr>
+                        <td>{{ flight[1] }}</td>
+                        <td>{{ flight[2] }}</td>
+                        <td>{{ flight[3] }}</td>
+                        <td>{{ flight[4] }}</td>
+                        <td>${{ flight[5] }}</td>
+                        <td>{{ flight[6] }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('booking_page', flight_id=flight[0]) }}">
+                                <button type="submit" class="btn btn-success">Book</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% elif similar_flights %}
+    <div class="table-container">
+        <h2 class="my-4">Similar Flights</h2>
+        <p class="suggestion-note">No exact matches found, but here are some similar flights.</p>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Departure</th>
+                    <th>Destination</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Price</th>
+                    <th>Available Seats</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for flight in similar_flights %}
+                    <tr>
+                        <td>{{ flight[1] }}</td>
+                        <td>{{ flight[2] }}</td>
+                        <td>{{ flight[3] }}</td>
+                        <td>{{ flight[4] }}</td>
+                        <td>${{ flight[5] }}</td>
+                        <td>{{ flight[6] }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('booking_page', flight_id=flight[0]) }}">
+                                <button type="submit" class="btn btn-success">Book</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}
